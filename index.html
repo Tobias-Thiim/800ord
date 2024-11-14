@@ -83,11 +83,32 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
             font-size: 24px;
         }
-        .author-tag {
+        #category-buttons {
+            display: flex;
+            justify-content: center; /* Center the buttons */
+            margin-bottom: 20px;
+        }
+        .category-button {
+            padding: 8px 12px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #2B2B2B;
+            color: #F0EAD6;
+            transition: background-color 0.3s;
+            font-family: inherit;
+            font-weight: bold;
+        }
+        .category-button.selected {
+            background-color: #8B0000; /* Indicate selected buttons */
+        }
+        .dark-mode .category-button {
+            background-color: #F0EAD6;
             color: #2B2B2B;
         }
-        .category-tag {
-            color: #2B2B2B;
+        .dark-mode .category-button.selected {
+            background-color: #A3C2DB;
         }
     </style>
     <!-- jQuery Library -->
@@ -101,8 +122,18 @@
 
     <h1>800 ord</h1>
 
-    <div data-include="template"></div>
+    <div id="category-buttons">
+        <!-- <button class="category-button" onclick="toggleCategory('all')">Alle</button> -->
+        <button class="category-button" onclick="toggleCategory('samfund')">Samfund</button>
+        <button class="category-button" onclick="toggleCategory('kultur')">Kultur</button>
+        <button class="category-button" onclick="toggleCategory('teknik')">Teknik</button>
+        <button class="category-button" onclick="toggleCategory('sport')">Sport</button>
+    </div>
+
     <div data-include="manifest"></div>
+    <div data-include="kultur"></div>
+    <div data-include="samfund"></div>
+    <div data-include="teknik"></div>
 
     <script>
         function toggleDarkMode() {
@@ -125,6 +156,49 @@
                 $(this).load(file);
             });
         });
+
+        const selectedCategories = new Set();
+
+        function toggleCategory(category) {
+            const button = document.querySelector(`.category-button[onclick="toggleCategory('${category}')"]`);
+
+            // If 'all' is selected, clear all categories
+            if (category === 'all') {
+                selectedCategories.clear();
+                document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('selected'));
+            } else {
+                // Toggle the selected category button
+                if (selectedCategories.has(category)) {
+                    selectedCategories.delete(category);
+                    button.classList.remove('selected');
+                } else {
+                    selectedCategories.add(category);
+                    button.classList.add('selected');
+                }
+            }
+
+            // Filter the articles based on selected categories
+            filterArticles();
+        }
+
+        function filterArticles() {
+            const articles = document.querySelectorAll('section');
+            
+            // Show sections if they match selected categories or have the always-include attribute
+            articles.forEach(article => {
+                const categories = article.getAttribute('data-category');
+                const alwaysInclude = article.getAttribute('data-always-include');
+
+                if (alwaysInclude === 'true' || selectedCategories.size === 0 || (categories && Array.from(selectedCategories).some(cat => categories.includes(cat)))) {
+                    article.style.display = 'block';
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize with all articles visible
+        filterArticles();
     </script>
 
 </body>
