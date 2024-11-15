@@ -107,6 +107,18 @@
         .dark-mode .category-button.selected {
             background-color: #A3C2DB;
         }
+
+        img {
+        display: block;            /* Center-align the image block */
+        margin: 20px auto;         /* Center horizontally and add vertical spacing */
+        max-width: 100%;           /* Ensure images don't exceed container width */
+        height: auto;              /* Maintain aspect ratio */
+    }
+
+        /* Additional styling for dark mode */
+        .dark-mode img {
+            filter: brightness(0.7); /* Darken images slightly in dark mode */
+        }
     </style>
     <!-- jQuery Library -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
