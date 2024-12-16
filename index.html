@@ -59,6 +59,15 @@
         a {
             color: inherit; /* Makes the link adopt the color of surrounding text */
         }
+        p, ol, h1, h2, h3, h4, h5 {
+            word-break: normal; /* Ensure natural word-breaking */
+            overflow-wrap: break-word; /* Handle long words without breaking layout */
+            hyphens: auto; /* Enable automatic hyphenation */
+        }
+        .scale-to-webpage {
+            width: 50vw; /* 50% of the webpage's width */
+            height: auto; /* Maintain aspect ratio */
+        }
         /* Dark mode styles */
         .dark-mode {
             background-color: #2B2B2B;
@@ -162,6 +171,8 @@
         <button class="category-button" onclick="toggleCategory('sport')">Sport</button>
     </div>
 
+    <div data-include="em_161224_buchs"></div>
+    <div data-include="ob_271124_ulv"></div>
     <div data-include="mafia_271124_sverige"></div>
     <div data-include="jap_271124_varmepumpe"></div>
     <div data-include="manifest"></div>
